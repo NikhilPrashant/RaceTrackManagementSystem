@@ -1,8 +1,10 @@
-package com.example.geektrust;
+package com.example.geektrust.Entities;
+
+import com.example.geektrust.Enums.VehicleType;
 
 import java.time.LocalTime;
 
-public class Booking {
+public class BookingEntity {
     private String vehicleType;
     private String vehicleNumber;
     private LocalTime entryTime;
@@ -12,7 +14,7 @@ public class Booking {
     private boolean isVIP;
     private boolean isBooked;
 
-    public Booking(String vehicleType, String vehicleNumber, LocalTime entryTime) {
+    public BookingEntity(String vehicleType, String vehicleNumber, LocalTime entryTime) {
         this.vehicleType = vehicleType;
         this.vehicleNumber = vehicleNumber;
         this.entryTime = entryTime;
@@ -27,36 +29,16 @@ public class Booking {
         return vehicleType;
     }
 
-    public void setVehicleType(String vehicleType) {
-        this.vehicleType = vehicleType;
-    }
-
     public String getVehicleNumber() {
         return vehicleNumber;
-    }
-
-    public void setVehicleNumber(String vehicleNumber) {
-        this.vehicleNumber = vehicleNumber;
     }
 
     public LocalTime getEntryTime() {
         return entryTime;
     }
 
-    public void setEntryTime(LocalTime entryTime) {
-        this.entryTime = entryTime;
-    }
-
-    public LocalTime getExitTime() {
-        return exitTime;
-    }
-
     public void setExitTime(LocalTime exitTime) {
         this.exitTime = exitTime;
-    }
-
-    public int getHoursBooked() {
-        return hoursBooked;
     }
 
     public void setHoursBooked(int hoursBooked) {

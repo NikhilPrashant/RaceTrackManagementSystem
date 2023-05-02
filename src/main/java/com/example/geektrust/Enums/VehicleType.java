@@ -1,4 +1,4 @@
-package com.example.geektrust;
+package com.example.geektrust.Enums;
 
 public enum VehicleType {
     BIKE(60),
@@ -13,9 +13,5 @@ public enum VehicleType {
     }
     public int getRate() {
         return rate;
-    }
-
-    public void setRate(int rate) {
-        this.rate = rate;
     }
 }
