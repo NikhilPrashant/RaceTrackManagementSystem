@@ -19,7 +19,6 @@ public class VIPTrackManager {
     }
 
     public String bookTrack(BookingEntity booking) {
-        LocalTime currentTime = booking.getEntryTime();
         for (String vehicleNo: bookingList.keySet()) {
             BookingEntity booking1 = bookingList.get(vehicleNo);
             Duration duration = Duration.between(booking.getEntryTime(), booking1.getEntryTime());
