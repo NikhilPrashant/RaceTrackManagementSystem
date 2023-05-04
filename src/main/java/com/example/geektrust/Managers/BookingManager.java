@@ -1,21 +1,23 @@
-package com.example.geektrust.Entities;
+package com.example.geektrust.Managers;
 
-import com.example.geektrust.TrackManagers.RegularTrackManager;
-import com.example.geektrust.TrackManagers.VIPTrackManager;
+import com.example.geektrust.Constants.Constants;
+import com.example.geektrust.Entities.BookingEntity;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BookingManagerEntity {
+public class BookingManager {
+
+    Constants constants = new Constants();
 
     RegularTrackManager regularTrackManager;
     VIPTrackManager vipTrackManager;
     List<BookingEntity> bookingList = new ArrayList<>(); // list of bookings with boolean isBooked to calculate payment for successfull bookings
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm"); // all string input of time are in format of HH:mm
 
-    public BookingManagerEntity() {
+    public BookingManager() {
         this.regularTrackManager = new RegularTrackManager(); // regularTrackManager created once
         this.vipTrackManager = new VIPTrackManager(); // vipTrackManager created once
     }
@@ -37,12 +39,15 @@ public class BookingManagerEntity {
 
     public void book(String[] bookingRequest) {
         LocalTime time = LocalTime.parse(bookingRequest[3], formatter);
-        LocalTime startTime = LocalTime.of(13, 0);
-        LocalTime endTime = LocalTime.of(17, 0);
+        LocalTime startTime = LocalTime.of(constants.minStartTime, 0);
+        LocalTime endTime = LocalTime.of(constants.maxStartTime, 0);
         if (time.isAfter(startTime) && time.isBefore(endTime) || time.equals(startTime) || time.equals(endTime)) {
             BookingEntity booking = new BookingEntity(bookingRequest[1], bookingRequest[2], time);
-            bookingList.add(booking);
-            System.out.println(regularTrackManager.bookTrack(booking, vipTrackManager));
+            String response = regularTrackManager.bookTrack(booking, vipTrackManager);
+            if (response.equals("SUCCESS")) {
+                bookingList.add(booking);
+            }
+            System.out.println(response);
         } else {
             System.out.println("INVALID_ENTRY_TIME");
         }
@@ -51,8 +56,8 @@ public class BookingManagerEntity {
     // function to add time if track is available
     public void add(String[] bookingRequest) {
         LocalTime time = LocalTime.parse(bookingRequest[2], formatter);
-        LocalTime startTime = LocalTime.of(16, 0);
-        LocalTime endTime = LocalTime.of(20, 0);
+        LocalTime startTime = LocalTime.of(constants.minExitTime, 0);
+        LocalTime endTime = LocalTime.of(constants.maxExitTime, 0);
         if (time.isAfter(startTime) && time.isBefore(endTime) || time.equals(startTime) || time.equals(endTime)) {
             System.out.println(regularTrackManager.addTime(bookingRequest[1], time, vipTrackManager));
         } else {
@@ -66,10 +71,8 @@ public class BookingManagerEntity {
         int revenueRegular = 0;
         int revenueVIP = 0;
         for (BookingEntity booking : bookingList) {
-            if (booking.isBooked()) {
-                if (!booking.isVIP()) revenueRegular += booking.getPayment(); //getPayment uses setPayment according to hours on track before getting
-                else revenueVIP += booking.getPayment();
-            }
+            if (!booking.isVIP()) revenueRegular += booking.getPayment(); //getPayment uses setPayment according to hours on track before getting
+            else revenueVIP += booking.getPayment();
         }
         System.out.println(revenueRegular + " " + revenueVIP);
     }

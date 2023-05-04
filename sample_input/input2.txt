@@ -1,5 +1,3 @@
-/*Please add your sample inputs 
-here specific to the problem statement*/
 BOOK SUV M40 14:00
 BOOK SUV O34 15:00
 BOOK SUV XY4 13:00

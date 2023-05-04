@@ -1,6 +1,7 @@
 package com.example.geektrust.Enums;
 
 public enum TrackType {
+
     REGULAR(4, 2, 2),
     VIP(0, 1, 1);
     private int maxBikes;
